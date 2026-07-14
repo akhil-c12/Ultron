@@ -1,18 +1,8 @@
-from wakeword.wake_detector import WakeWordDetector
+from assistant import ua
 
 def main():
-    detector=WakeWordDetector()
-
-    while True:
-        wakeword=detector.listen()
-
-        print("===================================")
-        print("Ultron Activated!")
-        print(f"Detected: {wakeword}")
-        print("===================================")
+    ultron=ua()
+    ultron.run()
 
 if __name__=="__main__":
     main()
-
-
-    

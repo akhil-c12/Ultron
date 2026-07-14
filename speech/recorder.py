@@ -14,7 +14,7 @@ class Recorder:
         self.channels=channels
         self.duration=duration
 
-        self.output_dir=Path("asstes/audio")
+        self.output_dir=Path("assets/audio")
         self.output_dir.mkdir(parents=True,exist_ok=True)
 
     def record(self)->str:
