@@ -46,7 +46,7 @@ class UltronLLm:
         )
 
         response=self.client.chat(
-            model=self.model,
+            model=self.model
             messages=self.messages
         )
 
