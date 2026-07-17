@@ -23,7 +23,7 @@ class UltronLLm:
 
     def __init__(
         self,
-        model:str="gemma3:latest",
+        model:str="gemma3:latest"
         host:str="http://localhost:11434"
     ):
         self.client=Client(host=host)

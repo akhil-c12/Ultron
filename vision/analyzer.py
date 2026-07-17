@@ -1,4 +1,24 @@
-answer = analyzer.analyze(
-    image_path="assets/image.jpg",
-    prompt="What do you see?"
-)
+from ollama import Client
+
+from config import OLLAMA_URL
+from vision.prompts import VISION_SYSTEM_PROMPT
+
+class VisionAnalyzer:
+    def __init__(self,model:str):
+        self.model=model
+        self.client-Client(host=OLLAMA_URL)
+
+    def analyze(self,image_path:str,user_prompt:str)->str:
+        response=self.client.chat(
+            model=self.model,
+            messages=[
+                {"role": "system",
+                    "content": VISION_SYSTEM_PROMPT,},
+
+                {"role": "user",
+                    "content": user_prompt,
+                    "images": [image_path],},
+            ],
+        )
+
+        return response['message']['content']
