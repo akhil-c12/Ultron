@@ -1,0 +1,8 @@
+ollama
+opencv-python>=5.0.0
+edge-tts
+pygame
+faster-whisper
+sounddevice>=0.5.5
+scipy>=1.18.0
+

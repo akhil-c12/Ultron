@@ -2,7 +2,8 @@ import asyncio
 import edge_tts
 import pygame
 from pathlib import Path
-
+import time
+import subprocess
 class Speaker:
 
     def __init__(self):
@@ -17,15 +18,20 @@ class Speaker:
         communicate=edge_tts.Communicate(text=text,voice=self.voice)
         await communicate.save(output)
 
-    def speak(self,text:str):
-        output=self.output_dir/"response.mp3"
-        asyncio.run(self._generate(text,output))
-        pygame.mixer.music.load(str(output))
-        pygame.mixer.music.play()
+    def speak(self, text: str):
+        output = self.output_dir / "response.mp3"
 
-        while pygame.mixer.music.get_busy():
-            continue
+        asyncio.run(self._generate(text, output))
 
+        subprocess.run(
+            [
+                "mpv",
+                "--no-video",
+                "--really-quiet",
+                str(output),
+            ],
+            check=True,
+        )
 
 
 

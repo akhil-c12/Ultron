@@ -1,6 +1,9 @@
 from speech import recorder,whisper_engine,speaker
-from llm import UltronLLm
+from brain.chat import UltronLLM
+from brain.router import Router
 
+from vision.camera import Camera
+from vision.analyzer import VisionAnalyzer
 
 class ua:
     def __init__(self):
@@ -8,8 +11,13 @@ class ua:
 
         self.recorder=recorder.Recorder()
         self.whisper=whisper_engine.Whisper()
-        self.llm=UltronLLm()
+        self.llm=UltronLLM()
         self.speaker=speaker.Speaker()
+
+        self.router=Router()
+
+        self.camera=Camera()
+        self.vision=VisionAnalyzer()
 
     def run(self):
         self.speaker.speak("Greetings, Human. Ultron is now online.")
@@ -33,8 +41,16 @@ class ua:
                 ]:
                     self.speaker.speak("Shutting down. Until next time, Human.")
                     break
+                tool_call=self.router.route(user_text)
+                context=None
 
-                response = self.llm.chat(user_text)
+                if tool_call["tool"]=="vision":
+                    image_path=self.camera.capture_image()
+                    context=self.vision.analyze(
+                        image_path=image_path,
+                        user_prompt=user_text,
+                    )
+                response = self.llm.chat(user_message=user_text,context=context)
 
                 print(f"\nUltron : {response}")
 

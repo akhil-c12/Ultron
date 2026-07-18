@@ -28,3 +28,9 @@ class Camera:
 
         return filepath
 
+    def capture_image(self, filepath:str="assets/capture.jpg")->str:
+        from pathlib import Path
+        Path(filepath).parent.mkdir(parents=True, exist_ok=True)
+        return self.save_frame(filepath)
+
+
