@@ -19,24 +19,52 @@ Rules:
 """
 
 
-class UltronLLm:
+class UltronLLM:
 
     def __init__(
         self,
-        model:str="gemma3:latest"
-        host:str="http://localhost:11434"
+        model: str = "gemma3:latest",
+        host: str = "http://localhost:11434"
     ):
-        self.client=Client(host=host)
-        self.model=model
+        self.client = Client(host=host)
+        self.model = model
 
-        self.messages=[
+        self.messages = [
             {
-                "role":"system",
-                "content":SYSTEM_PROMPT
+                "role": "system",
+                "content": SYSTEM_PROMPT
             }
         ]
 
-    def chat(self,user_message)->str:
+    def chat(
+        self,
+        user_message: str,
+        context: str | None = None
+    ) -> str:
+
+        messages = self.messages.copy()
+
+        if context:
+            messages.append(
+                {
+                    "role": "system",
+                    "content": context
+                }
+            )
+
+        messages.append(
+            {
+                "role": "user",
+                "content": user_message
+            }
+        )
+
+        response = self.client.chat(
+            model=self.model,
+            messages=messages
+        )
+
+        assistant_reply = response["message"]["content"]
 
         self.messages.append(
             {
@@ -44,14 +72,6 @@ class UltronLLm:
                 "content": user_message
             }
         )
-
-        response=self.client.chat(
-            model=self.model,
-            messages=self.messages
-        )
-
-        assistant_reply=response["message"]["content"]
-
 
         self.messages.append(
             {
