@@ -50,8 +50,14 @@ class ua:
                         image_path=image_path,
                         user_prompt=user_text,
                     )
-                response = self.llm.chat(user_message=user_text,context=context)
 
+                elif tool_call["tool"] == "internet":
+                    context = self.internet.search(user_text)
+
+                response = self.llm.chat(
+                       user_message=user_text,
+                    context=context
+                )
                 print(f"\nUltron : {response}")
 
                 self.speaker.speak(response)
