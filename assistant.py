@@ -1,7 +1,7 @@
 from speech import recorder,whisper_engine,speaker
 from brain.chat import UltronLLM
 from brain.router import Router
-
+from Internet.search import InternetSearch
 from vision.camera import Camera
 from vision.analyzer import VisionAnalyzer
 
@@ -13,7 +13,7 @@ class ua:
         self.whisper=whisper_engine.Whisper()
         self.llm=UltronLLM()
         self.speaker=speaker.Speaker()
-
+        self.internet = InternetSearch()
         self.router=Router()
 
         self.camera=Camera()
@@ -55,8 +55,8 @@ class ua:
                     context = self.internet.search(user_text)
 
                 response = self.llm.chat(
-                       user_message=user_text,
-                    context=context
+                   user_message=user_text,
+                   context=context
                 )
                 print(f"\nUltron : {response}")
 
